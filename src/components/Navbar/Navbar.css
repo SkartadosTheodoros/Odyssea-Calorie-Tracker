@@ -43,23 +43,25 @@ header {
 }
 
 @media screen and (max-width: 1680px) {
-
+  .navbar-menu {
+    width: 70vw;
+  }
 }
 
 @media screen and (max-width: 1280px) {
-  header {
+  .navbar-menu {
     width: 80vw;
   }
 }
 
 @media screen and (max-width: 980px) {
-  header {
+  .navbar-menu {
     width: 80vw;
   }
 }
 
 @media screen and (max-width: 736px) {
-  header {
+  .navbar-menu {
     width: 90vw;
   }
 }

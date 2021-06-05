@@ -14,44 +14,47 @@ const CaloriesInput = (props) => {
     const onSubmitHandler = (event) => {
         event.preventDefault();
 
-        let tempInput = input.trim()
-        let tempDate, meal, type, quantity
-        if (tempInput.includes("for")) {
-            tempDate = tempInput.split("for")
-            tempInput = tempDate[0].trim()
-            type = tempDate[1].trim()
+        if (input.trim().length === 0) {
+            props.error();
+            setInput("")
         }
         else {
-            type = "-"
-        }
-
-        tempInput.includes("and")
-            ? tempDate = tempInput.split("and")
-            : tempDate = [tempInput]
-
-        tempDate.forEach((item) => {
-            let tempSplit
-            item.includes("of")
-                ? tempSplit = item.trim().split("of")
-                : tempSplit = item.trim().split(" ")
-            quantity = tempSplit[0].trim()
-            meal = tempSplit[1].trim()
-
-            console.log(quantity);
-            console.log(meal);
-
-            const newEntry = {
-                id: uuidv4(),
-                date: new Date(),
-                type: type,
-                meal: meal,
-                quantity: quantity
+            let tempInput = input.trim()
+            let tempDate, meal, type, quantity
+            if (tempInput.includes("for")) {
+                tempDate = tempInput.split("for")
+                tempInput = tempDate[0].trim()
+                type = tempDate[1].trim()
+            }
+            else {
+                type = "-"
             }
 
-            props.addEntry(newEntry)
-        })
+            tempInput.includes("and")
+                ? tempDate = tempInput.split("and")
+                : tempDate = [tempInput]
 
-        setInput("")
+            tempDate.forEach((item) => {
+                let tempSplit
+                item.includes("of")
+                    ? tempSplit = item.trim().split("of")
+                    : tempSplit = item.trim().split(" ")
+                quantity = tempSplit[0].trim()
+                meal = tempSplit[1].trim()
+
+                const newEntry = {
+                    id: uuidv4(),
+                    date: new Date(),
+                    type: type,
+                    meal: meal,
+                    quantity: quantity
+                }
+
+                props.addEntry(newEntry)
+            })
+
+            setInput("")
+        }
     }
 
     return (

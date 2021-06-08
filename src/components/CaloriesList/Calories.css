@@ -1,10 +1,37 @@
-.calories {
+.calories{
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top:50px ;
 }
 
 .calories-list {
-  width: 45vw;
-  list-style: none;
+  background-color: white;
+  border: 5px solid var(--color);
+  border-radius: 10px;
+  width:50vw;
+}
+
+@media screen and (max-width: 1680px) {
+  .calories-list{
+    width: 58vw;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .calories-list{
+    width: 70vw;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .calories-list{
+    width: 85vw;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .calories-list{
+    width: 95vw;
+  }
 }

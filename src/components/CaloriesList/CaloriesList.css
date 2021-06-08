@@ -1,0 +1,53 @@
+.calories-list-table {
+  border-collapse: collapse;
+  text-align: center;
+  width: 100%;
+}
+
+.calories-list-table thead {
+  background-color: var(--color);
+  color: white;
+  font-size: 20px;
+  height: 5vh;
+}
+
+.calories-list-table tbody tr{
+  border: solid var(--color) 1px;
+  height: 5vh;
+}
+
+.calories-list-table td:nth-child(1) {
+  width: 20vw;
+}
+
+.calories-list-table td:nth-child(4) {
+  width: 8vw;
+}
+
+.calories-list-table tfoot {
+  height: 5vh;
+}
+
+.calories-list-table tfoot td:nth-child(1){
+  background-color: var(--color);
+  color: white;
+  font-size: 20px;
+}
+
+.calories-entry-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+}
+
+.edit-button,
+.delete-button {
+  background: var(--colorlight);
+  border: solid white 1px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  color: white;
+  padding: 0.50rem;
+  cursor: pointer;
+}

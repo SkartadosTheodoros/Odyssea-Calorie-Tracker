@@ -26,7 +26,7 @@ const CaloriesInput = (props) => {
 
         const newEntry = {
             id: uuidv4(),
-            date: new Date(),
+            date: new Date().toString(),
             type: type,
             meal: tempInput
         }

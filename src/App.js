@@ -13,13 +13,35 @@ function App() {
       date: new Date().toLocaleString(),
       meal: "tomato",
       quantity: "250g",
-      calories: "1586"
+      calories: 1586
+    },
+    {
+      id: 2,
+      date: new Date().toLocaleString(),
+      meal: "tomato",
+      quantity: "250g",
+      calories: 1586
+    },
+    {
+      id: 3,
+      date: new Date().toLocaleString(),
+      meal: "tomato",
+      quantity: "250g",
+      calories: 1586
+    },
+    {
+      id: 4,
+      date: new Date().toLocaleString(),
+      meal: "tomato",
+      quantity: "250g",
+      calories: 1586
     }
   ]
 
   //Add new entry
   const [data, setData] = useState(startData)
   const addEntryHandler = (entry) => {
+    
 
     if (entry.meal.trim().length === 0) {
       setError("Meal is mandatory")
@@ -32,7 +54,7 @@ function App() {
       date: entry.date,
       meal: entry.meal,
       quantity: "100gr",
-      calories: "1000kcal"
+      calories: 1000
     }
 
     setData((data) => { return [...data, newEntry] })

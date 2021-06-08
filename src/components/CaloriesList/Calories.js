@@ -7,8 +7,6 @@ const Calories = (props) => {
             <div className="calories-list">
                 <CaloriesList data={props.data} />
             </div>
-
-
         </div>
     )
 }

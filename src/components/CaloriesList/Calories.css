@@ -1,0 +1,10 @@
+.calories {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calories-list {
+  width: 45vw;
+  list-style: none;
+}

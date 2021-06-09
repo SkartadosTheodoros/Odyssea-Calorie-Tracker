@@ -17,7 +17,11 @@
 }
 
 .calories-list-table td:nth-child(1) {
-  width: 20vw;
+  padding-left: 10px;
+}
+
+.calories-list-table td:nth-child(2) {
+  width: 15vw;
 }
 
 .calories-list-table td:nth-child(4) {

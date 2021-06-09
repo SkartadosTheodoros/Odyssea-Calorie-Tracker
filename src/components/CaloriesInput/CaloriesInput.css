@@ -1,7 +1,7 @@
 .add-entry {
   display: grid;
-  grid-template-rows: 2fr 1fr;
-  height: 50vh;
+  grid-template-rows: 3fr 1fr;
+  height: 45vh;
 }
 
 .add-entry-title {

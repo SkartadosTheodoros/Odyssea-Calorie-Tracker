@@ -13,22 +13,29 @@ const CaloriesInput = (props) => {
     const onSubmitHandler = (event) => {
         event.preventDefault();
 
-        let tempInput = input.trim()
-        let tempDate, type
+        let tempInput, tempDate, meal
+
+        if (input === undefined) {
+            tempInput = ""
+        }
+        else {
+            tempInput = input.trim()
+        }
+
         if (tempInput.includes("for")) {
             tempDate = tempInput.split("for")
             tempInput = tempDate[0].trim()
-            type = tempDate[1].trim()
+            meal = tempDate[1].trim()
         }
         else {
-            type = "-"
+            meal = "-"
         }
 
         const newEntry = {
             id: uuidv4(),
-            date: new Date().toString(),
-            type: type,
-            meal: tempInput
+            date: new Date(),
+            name: tempInput,
+            meal: meal
         }
 
         if (props.addEntry(newEntry)) {
@@ -49,6 +56,7 @@ const CaloriesInput = (props) => {
                 <input type="text" placeholder="ex. 200gr green salad for meal" value={input} onChange={inputChangeHandler} />
                 <button onClick={onSubmitHandler}>Click me</button>
             </div>
+
         </div>)
 }
 

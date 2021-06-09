@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { useState } from "react"
 import "./CaloriesInput.css"
 
@@ -31,14 +30,13 @@ const CaloriesInput = (props) => {
             meal = "-"
         }
 
-        const newEntry = {
-            id: uuidv4(),
+        const entry = {
             date: new Date(),
-            name: tempInput,
+            query: tempInput,
             meal: meal
         }
 
-        if (props.addEntry(newEntry)) {
+        if (props.addEntry(entry)) {
             setInput("")
         }
         else {

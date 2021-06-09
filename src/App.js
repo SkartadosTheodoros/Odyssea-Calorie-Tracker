@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import ErrorModal from './components/UI/ErrorModal';
@@ -7,77 +8,38 @@ import Calories from './components/CaloriesList/Calories';
 
 function App() {
 
-  const startData = [
-    {
-      id: 1,
-      date: new Date(),
-      name: "dddd",
-      meal: "breakfast",
-      quantity: "250g",
-      calories: 1586
-    },
-    {
-      id: 2,
-      date: new Date(),
-      name: "dfgvbdf",
-      meal: "breakfast",
-      quantity: "250g",
-      calories: 1586
-    },
-    {
-      id: 12,
-      date: new Date(),
-      name: "dfgvbdf",
-      meal: "lunch",
-      quantity: "250g",
-      calories: 1586
-    },
-    {
-      id: 222,
-      date: new Date(),
-      name: "dfgvbdf",
-      meal: "meal",
-      quantity: "250g",
-      calories: 1586
-    },
-    {
-      id: 3,
-      date: new Date(),
-      name: "tggggomato",
-      meal: "breakfast",
-      quantity: "250g",
-      calories: 1586
-    },
-    {
-      id: 4,
-      date: new Date(),
-      name: "tomato",
-      meal: "breakfast",
-      quantity: "250g",
-      calories: 1586
-    }
-  ]
-
   //Add new entry
-  const [data, setData] = useState(startData)
+  const [data, setData] = useState([])
   const addEntryHandler = (entry) => {
 
-    if (entry.name.trim().length === 0 ) {
+    if (entry.query.trim().length === 0) {
       setError("Meal is mandatory")
       return false;
     }
 
-    // feach data from api
-    const newEntry = {
-      id: entry.id,
-      date: entry.date,
-      name: entry.name,
-      meal: entry.meal,
-      quantity: "100gr",
-      calories: 1000
-    }
+    let query = entry.query;
+    fetch('https://api.calorieninjas.com/v1/nutrition?query=' + query,
+      {
+        method: 'GET',
+        url: 'https://api.calorieninjas.com/v1/nutrition?query=' + query,
+        headers: { 'X-Api-Key': 'EXZJmSfKrzCjfD5csKLGQQ==3snCEmEYJFlGVzjc' },
+        contentType: 'application/json',
+      })
+      .then(response => response.json())
+      .then(jsonData => {
+        jsonData.items.map(item => {
+          const newEntry = {
+            id: uuidv4(),
+            date: entry.date,
+            name: item.name,
+            meal: entry.meal,
+            quantity: String(item.serving_size_g) + "g",
+            calories: item.calories
+          }
 
-    setData((data) => { return [...data, newEntry] })
+          setData((data) => { return [...data, newEntry] })
+        })
+      })
     return true;
   }
 

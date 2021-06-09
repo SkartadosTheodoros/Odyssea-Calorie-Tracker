@@ -12,8 +12,8 @@ const CaloriesList = (props) => {
 
             return (
                 <tr key={item.id}>
-                    {/* <td>{item.date}</td> */}
                     <td>{item.meal}</td>
+                    <td>{item.name}</td>
                     <td>{item.quantity}</td>
                     <td>{item.calories}</td>
                     <td>
@@ -35,8 +35,8 @@ const CaloriesList = (props) => {
         <table className="calories-list-table">
             <thead>
                 <tr>
-                    {/* <th>Date</th> */}
                     <th>Meal</th>
+                    <th>Name</th>
                     <th>Quantity</th>
                     <th>Calories</th>
                     <th></th>
@@ -47,8 +47,8 @@ const CaloriesList = (props) => {
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="2">Total Calories</td>
-                    <td>{totalCalories}</td>
+                    <td colSpan="3">Total Calories</td>
+                    <td>{Math.round(totalCalories * 10) / 10}</td>
                 </tr>
             </tfoot>
         </table>

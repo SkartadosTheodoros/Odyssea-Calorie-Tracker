@@ -21,9 +21,16 @@ const Calories = (props) => {
 
     return (
         <div className="calories">
-            <div className="calories-list">
-                <CaloriesList data={filteredItems} />
-            </div>
+            {
+                filteredItems.length === 0
+                    ? 
+                    null
+
+                    :
+                    <div className="calories-list">
+                        <CaloriesList data={filteredItems} />
+                    </div>
+            }
         </div>
     )
 }

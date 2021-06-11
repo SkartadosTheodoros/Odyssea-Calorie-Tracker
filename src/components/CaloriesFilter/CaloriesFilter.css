@@ -6,8 +6,8 @@
 
 .filter-entry {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 46vw;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 60vw;
 }
 
 @media screen and (max-width: 1680px) {

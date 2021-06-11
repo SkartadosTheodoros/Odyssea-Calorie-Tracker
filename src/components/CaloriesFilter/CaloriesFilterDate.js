@@ -9,7 +9,7 @@ const CaloriesFilterDate = (props) => {
 
     return (
         <div className="filter-entry-date">
-            <label>Start on : </label>
+            <label>Start on </label>
             <input type="date" value={props.value} onChange={startDateChangeHandler} />
         </div>
     )

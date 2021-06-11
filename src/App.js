@@ -19,6 +19,7 @@ function App() {
   //States
   const [data, setData] = useState([])
   const [startDate, setStartDate] = useState(today())
+  const [search, setSearch] = useState("")
   const [type, setType] = useState("all")
   const [typeList, setTypesList] = useState([])
   const [error, setError] = useState();
@@ -52,6 +53,8 @@ function App() {
           setData((data) => { return [...data, newEntry] })
         })
       })
+
+      console.log(data)
     return true;
   }
 
@@ -110,6 +113,10 @@ function App() {
     newSetTypeListSetHandler(new Date(startDate))
   }, [data])
 
+  const searchChangeHandler = (entry) =>{
+    entry === undefined ? setSearch("") : setSearch(entry);
+  }
+
 
 
 
@@ -152,14 +159,17 @@ function App() {
         error={errorChangeHandler} />
 
       <CaloriesFilter
+        search={search}
         startDate={startDate}
         typeList={typeList}
+        onSetSearch = {searchChangeHandler}
         onSetType={newSetTypeSetHandler}
         onSetStartDate={newStartDateSetHandler}
         onSetTypeList={newSetTypeListSetHandler} />
 
       <Calories
         data={data}
+        filterSearch={search}
         filterDate={startDate}
         filterType={type}
         onDelete={deleteHandler} />

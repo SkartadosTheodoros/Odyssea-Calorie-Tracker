@@ -7,9 +7,9 @@ const CaloriesFilterType = (props) => {
     }
 
     return (
-        <div className="filter-entry-meal">
-            <label htmlFor="meal">Meal Type : </label>
-            <select name="meals" id="meal" onChange={startTypeChangeHandler}>
+        <div className="filter-entry-type">
+            <label htmlFor="type">Type</label>
+            <select name="type" id="type" onChange={startTypeChangeHandler}>
                 <option value="all">all</option>
                 {
                     props.typeList.length > 0 &&

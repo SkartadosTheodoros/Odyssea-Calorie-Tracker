@@ -1,0 +1,44 @@
+.filter-entry-meal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 0 1vw;
+}
+
+.filter-entry-meal label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding-right: 1rem;
+}
+
+.filter-entry-meal select {
+  width: 10vw;
+  border: none;
+  font-size: 1rem;
+}
+.filter-entry-meal select {
+  text-align: left;
+}
+
+@media screen and (max-width: 1280px) {
+  .filter-entry-meal select {
+    width: 18vw;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .filter-entry-meal {
+    padding: 0.5rem 1rem;
+  }
+
+  .filter-entry-meal label {
+    font-size: 0.8rem;
+  }
+
+  .filter-entry-meal select {
+    width: 25vw;
+  }
+}

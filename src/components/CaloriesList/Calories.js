@@ -2,11 +2,10 @@ import "./Calories.css"
 import CaloriesList from "./CaloriesList"
 
 const Calories = (props) => {
-
     const date = new Date(props.filterDate)
 
     const filteredItems = props.data.filter(item => {
-        if (props.filterMeal === "all") {
+        if (props.filterType === "all") {
             return (item.date.getYear() === date.getYear() &&
                 item.date.getMonth() === date.getMonth() &&
                 item.date.getDate() === date.getDate())
@@ -15,23 +14,18 @@ const Calories = (props) => {
             return (item.date.getYear() === date.getYear() &&
                 item.date.getMonth() === date.getMonth() &&
                 item.date.getDate() === date.getDate() &&
-                item.meal === props.filterMeal)
+                item.type === props.filterType)
         }
     })
 
-    const onDeleteHandler = (id) => props.delete(id)
+    const onDeleteHandler = (id) => props.onDelete(id)
 
     return (
         <div className="calories">
-            {
-                filteredItems.length === 0
-                    ? 
-                    null
-
-                    :
-                    <div className="calories-list">
-                        <CaloriesList data={filteredItems} delete={onDeleteHandler}/>
-                    </div>
+            {filteredItems.length !== 0 &&
+                <div className="calories-list">
+                    <CaloriesList data={filteredItems} onDelete={onDeleteHandler} />
+                </div>
             }
         </div>
     )

@@ -8,20 +8,33 @@ import Calories from './components/CaloriesList/Calories';
 
 function App() {
 
-  //Add new entry
-  const [data, setData] = useState([])
-  const addEntryHandler = (entry) => {
+  const today = () => {
+    let today = new Date()
+    let day = String(today.getDate()).padStart(2, '0');
+    let month = String(today.getMonth() + 1).padStart(2, '0');
+    let year = today.getFullYear();
+    return year + '-' + month + '-' + day;
+  }
 
+  //States
+  const [data, setData] = useState([])
+  const [startDate, setStartDate] = useState(today())
+  const [type, setType] = useState("all")
+  const [typeList, setTypesList] = useState([])
+  const [error, setError] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  //Add new entry
+  const addEntryHandler = (entry) => {
     if (entry.query.trim().length === 0) {
       setError("Meal is mandatory")
       return false;
     }
 
-    let query = entry.query;
-    fetch('https://api.calorieninjas.com/v1/nutrition?query=' + query,
+    fetch('https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
       {
         method: 'GET',
-        url: 'https://api.calorieninjas.com/v1/nutrition?query=' + query,
+        url: 'https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
         headers: { 'X-Api-Key': 'EXZJmSfKrzCjfD5csKLGQQ==3snCEmEYJFlGVzjc' },
         contentType: 'application/json',
       })
@@ -31,118 +44,125 @@ function App() {
           const newEntry = {
             id: uuidv4(),
             date: entry.date,
-            name: item.name,
-            meal: entry.meal,
+            meal: item.name,
+            type: entry.type,
             quantity: String(item.serving_size_g) + "g",
             calories: item.calories
           }
-
           setData((data) => { return [...data, newEntry] })
         })
       })
     return true;
   }
 
-  //Error during input
-  const [error, setError] = useState();
+  //Error Modal
   const errorChangeHandler = () => {
     setError(true)
   }
 
-  //close Modal
+  //Close Error Modal
   const onDismissHandler = () => {
     setError(false)
-  }
-
-  const today = () => {
-    let today = new Date()
-    let day = String(today.getDate()).padStart(2, '0');
-    let month = String(today.getMonth() + 1).padStart(2, '0');
-    let year = today.getFullYear();
-    return year + '-' + month + '-' + day;
-  }
-
-  // date filter
-  const [startDate, setStartDate] = useState(today())
-  const newStartDateSetHandler = (startDate) => {
-    setStartDate(startDate);
-  }
-
-  // typefilter
-  const [meal, setMeal] = useState("all")
-  const newSetMealTypeSetHandler = (meal) => {
-    setMeal(meal);
-  }
-
-  const [mealTypes, setMealTypes] = useState([])
-
-  const UniqueMealType = (date) => {
-    let types = data.map(item => {
-      return (
-        item.date.getDate() === date.getDate()
-          ? item.meal
-          : null)
-    })
-
-    types = types.filter((item, idx) => types.indexOf(item) === idx)
-    return types
-  }
-
-  useEffect(() => {
-    setMealTypes(
-      UniqueMealType(new Date(startDate))
-    )
-  }, [data])
-
-  const findUniqueMealTypeHandler = (date) => {
-    setMealTypes(
-      UniqueMealType(new Date(date))
-    )
   }
 
   //edit entry
 
 
+
+
+
+
+
+
   // delete entry
   const deleteHandler = (id) => {
-    const newData = data.filter((entry) =>  entry.id !== id );
+    const newData = data.filter((entry) => entry.id !== id);
     setData(newData);;
   };
 
-  // check if user is log in
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  // register
-
-  // log in
-  const [login, setLogin] = useState(false)
-  const loginChangeHandler = () => {
-    setLogin(true);
+  // set date for filterimg 
+  const newStartDateSetHandler = (startDate) => {
+    setStartDate(startDate);
   }
 
+  // set filter type
+  const newSetTypeSetHandler = (type) => {
+    setType(type);
+  }
+
+  // filter type list
+  const newSetTypeListSetHandler = (date) => {
+    date = new Date(date)
+
+    let uniqueTypes = data.map(item => {
+      return (item.date.getDate() === date.getDate() ? item.type : null)
+    })
+
+    uniqueTypes = uniqueTypes.filter((item, idx) => {
+      return (uniqueTypes.indexOf(item) === idx && item != null)
+    })
+
+    setTypesList(uniqueTypes.sort())
+  }
+
+  // filter type list on load
+  useEffect(() => {
+    newSetTypeListSetHandler(new Date(startDate))
+  }, [data])
+
+
+
+
+  // check if user is log in
+  // register
+  // log in
   // log out
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="App">
       {error && <ErrorModal title={error} onDismiss={onDismissHandler}></ErrorModal>}
+
       <Navbar
-        isLoggedIn={isLoggedIn}
-        login={loginChangeHandler} />
+        isLoggedIn={isLoggedIn} />
+
       <CaloriesInput
         addEntry={addEntryHandler}
         error={errorChangeHandler} />
+
       <CaloriesFilter
         startDate={startDate}
-        meal={meal}
-        mealType={mealTypes}
+        typeList={typeList}
+        onSetType={newSetTypeSetHandler}
         onSetStartDate={newStartDateSetHandler}
-        onSetMealType={newSetMealTypeSetHandler}
-        onMealTypes={findUniqueMealTypeHandler} />
+        onSetTypeList={newSetTypeListSetHandler} />
+
       <Calories
+        data={data}
         filterDate={startDate}
-        filterMeal={meal}
-        data={data} 
-        delete={deleteHandler}/>
+        filterType={type}
+        onDelete={deleteHandler} />
     </div >
   );
 }

@@ -3,7 +3,9 @@ import "./CaloriesInput.css"
 
 const CaloriesInput = (props) => {
 
+    // States
     const [input, setInput] = useState()
+    
     const inputChangeHandler = (event) => {
         let newValue = event.target.value
         setInput(newValue)
@@ -12,7 +14,7 @@ const CaloriesInput = (props) => {
     const onSubmitHandler = (event) => {
         event.preventDefault();
 
-        let tempInput, tempDate, meal
+        let tempInput, tempDate, type
 
         if (input === undefined) {
             tempInput = ""
@@ -24,23 +26,20 @@ const CaloriesInput = (props) => {
         if (tempInput.includes("for")) {
             tempDate = tempInput.split("for")
             tempInput = tempDate[0].trim()
-            meal = tempDate[1].trim()
+            type = tempDate[1].toLowerCase().trim()
         }
         else {
-            meal = "-"
+            type = "-"
         }
 
         const entry = {
             date: new Date(),
             query: tempInput,
-            meal: meal
+            type: type
         }
 
         if (props.addEntry(entry)) {
             setInput("")
-        }
-        else {
-            console.log("Error Data");
         }
     }
 
@@ -51,10 +50,9 @@ const CaloriesInput = (props) => {
             </div>
 
             <div className="add-entry-input">
-                <input type="text" placeholder="ex. 200gr green salad for meal" value={input} onChange={inputChangeHandler} />
+                <input type="text" placeholder="ex. 200g green salad for meal" value={input} onChange={inputChangeHandler} />
                 <button onClick={onSubmitHandler}>Click me</button>
             </div>
-
         </div>)
 }
 

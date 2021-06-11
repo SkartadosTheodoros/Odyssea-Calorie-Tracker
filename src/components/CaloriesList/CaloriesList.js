@@ -7,21 +7,20 @@ const CaloriesList = (props) => {
 
     const renderTableData = () => {
         return props.data.map((item) => {
-
             totalCalories += item.calories
 
             return (
                 <tr key={item.id}>
+                    <td>{item.type}</td>
                     <td>{item.meal}</td>
-                    <td>{item.name}</td>
                     <td>{item.quantity}</td>
                     <td>{item.calories}</td>
                     <td>
                         <div className="calories-entry-buttons">
-                            <button className="edit-button" onClick={props.edit}>
+                            <button className="edit-button" onClick={()=>props.onEdit(item.id)}>
                                 <FontAwesomeIcon icon={faEdit} />
                             </button>
-                            <button className="delete-button" onClick={()=>props.delete(item.id)}>
+                            <button className="delete-button" onClick={()=>props.onDelete(item.id)}>
                                 <FontAwesomeIcon icon={faTrash} />
                             </button>
                         </div>
@@ -35,8 +34,8 @@ const CaloriesList = (props) => {
         <table className="calories-list-table">
             <thead>
                 <tr>
+                    <th>Type</th>
                     <th>Meal</th>
-                    <th>Name</th>
                     <th>Quantity</th>
                     <th>Calories</th>
                     <th></th>

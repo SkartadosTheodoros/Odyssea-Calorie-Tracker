@@ -19,6 +19,8 @@ const Calories = (props) => {
         }
     })
 
+    const onDeleteHandler = (id) => props.delete(id)
+
     return (
         <div className="calories">
             {
@@ -28,7 +30,7 @@ const Calories = (props) => {
 
                     :
                     <div className="calories-list">
-                        <CaloriesList data={filteredItems} />
+                        <CaloriesList data={filteredItems} delete={onDeleteHandler}/>
                     </div>
             }
         </div>

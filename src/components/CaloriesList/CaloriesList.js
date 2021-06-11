@@ -21,7 +21,7 @@ const CaloriesList = (props) => {
                             <button className="edit-button" onClick={props.edit}>
                                 <FontAwesomeIcon icon={faEdit} />
                             </button>
-                            <button className="delete-button" onClick={props.delete}>
+                            <button className="delete-button" onClick={()=>props.delete(item.id)}>
                                 <FontAwesomeIcon icon={faTrash} />
                             </button>
                         </div>

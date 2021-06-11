@@ -100,11 +100,14 @@ function App() {
     )
   }
 
-
-
   //edit entry
 
+
   // delete entry
+  const deleteHandler = (id) => {
+    const newData = data.filter((entry) =>  entry.id !== id );
+    setData(newData);;
+  };
 
   // check if user is log in
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -138,7 +141,8 @@ function App() {
       <Calories
         filterDate={startDate}
         filterMeal={meal}
-        data={data} />
+        data={data} 
+        delete={deleteHandler}/>
     </div >
   );
 }

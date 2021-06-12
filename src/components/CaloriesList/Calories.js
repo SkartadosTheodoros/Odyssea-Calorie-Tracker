@@ -5,20 +5,20 @@ const Calories = (props) => {
     const date = new Date(props.filterDate)
 
     const filteredItems = props.data.filter(item => {
-        if (props.filterType != "all" && props.filterSearch.length != 0) {
+        if (props.filterType !== "all" && props.filterSearch.length !== 0) {
             return (item.date.getYear() === date.getYear() &&
                 item.date.getMonth() === date.getMonth() &&
                 item.date.getDate() === date.getDate() &&
                 item.type === props.filterType &&
                 item.meal.startsWith(props.filterSearch))
         }
-        else if (props.filterType != "all" && props.filterSearch.length === 0) {
+        else if (props.filterType !== "all" && props.filterSearch.length === 0) {
             return (item.date.getYear() === date.getYear() &&
                 item.date.getMonth() === date.getMonth() &&
                 item.date.getDate() === date.getDate() &&
                 item.type === props.filterType)
         }
-        else if (props.filterSearch.length != 0) {
+        else if (props.filterSearch.length !== 0) {
             return (item.date.getYear() === date.getYear() &&
                 item.date.getMonth() === date.getMonth() &&
                 item.date.getDate() === date.getDate() &&

@@ -23,7 +23,7 @@ function App() {
   const [type, setType] = useState("all")
   const [typeList, setTypesList] = useState([])
   const [error, setError] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [authUser, setAuthUser] = useState();
 
   //Add new entry
   const addEntryHandler = (entry) => {
@@ -54,7 +54,7 @@ function App() {
         })
       })
 
-      console.log(data)
+    console.log(data)
     return true;
   }
 
@@ -113,35 +113,60 @@ function App() {
     newSetTypeListSetHandler(new Date(startDate))
   }, [data])
 
-  const searchChangeHandler = (entry) =>{
+  const searchChangeHandler = (entry) => {
     entry === undefined ? setSearch("") : setSearch(entry);
   }
 
 
 
 
-  // check if user is log in
-  // register
+
+
+
   // log in
+  const anthedicate = (credentials) => {
+
+    // user data
+    const users = [{
+      id: uuidv4(),
+      name: "Thodoris",
+      surname: "Skartados",
+      username: "Str125",
+      password: "123456789",
+      birthday: new Date("1991-5-14"),
+      role: "user"
+    },
+    {
+      id: uuidv4(),
+      name: "Nikolas",
+      surname: "Kouroumpetsis",
+      username: "oTheosKoimithike",
+      password: "hbvusvhsuidvjuv",
+      birthday: new Date("1990-3-10"),
+      role: "user"
+    }]
+
+
+  }
+
+  const onLoginHandler = (credentials) => {
+
+
+  }
+
+
+  // register
+
+  const onRegisterHandler = (user) => {
+
+  
+  }
+
+
   // log out
+  const onLogouHandler = (credentials) => {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
 
 
 
@@ -152,7 +177,10 @@ function App() {
       {error && <ErrorModal title={error} onDismiss={onDismissHandler}></ErrorModal>}
 
       <Navbar
-        isLoggedIn={isLoggedIn} />
+        isLoggedIn={authUser}
+        login={onLoginHandler}
+        register={onRegisterHandler}
+        logout={onLogouHandler} />
 
       <CaloriesInput
         addEntry={addEntryHandler}
@@ -162,7 +190,7 @@ function App() {
         search={search}
         startDate={startDate}
         typeList={typeList}
-        onSetSearch = {searchChangeHandler}
+        onSetSearch={searchChangeHandler}
         onSetType={newSetTypeSetHandler}
         onSetStartDate={newStartDateSetHandler}
         onSetTypeList={newSetTypeListSetHandler} />

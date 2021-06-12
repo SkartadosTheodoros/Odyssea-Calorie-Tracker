@@ -11,10 +11,10 @@ const ErrorModal = (props) => {
                 <div className="error-content">
                     <p>Input must have one of the following forms:</p>
                     <ul>
-                        <li>200gr green salad</li>
-                        <li>100gr burger for meal</li>
-                        <li>100gr burger and 200gr green salad</li>
-                        <li>100gr burger and 200gr green salad for dinner</li>
+                        <li>200g green salad</li>
+                        <li>100g burger for meal</li>
+                        <li>100g burger and 200g green salad</li>
+                        <li>100g burger and 200g green salad for dinner</li>
                     </ul>
                 </div>
                 <footer className="error-button">

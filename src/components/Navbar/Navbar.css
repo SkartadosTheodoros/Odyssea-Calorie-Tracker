@@ -20,7 +20,7 @@ header {
   color: white;
 }
 
-.navbar-links {
+/* .navbar-links {
   list-style: none;
 }
 
@@ -29,8 +29,6 @@ header {
   font-size: 30px;
   font-weight: bold;
   padding: 0 20px;
-
-  
 }
 
 .navbar-links li a {
@@ -40,7 +38,26 @@ header {
 
 .navbar-links li a:hover {
   color: green;
+} */
+
+.navbar-buttons button{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 0 10px;
 }
+
+.navbar-buttons button:hover{
+  color: green;
+}
+
 
 @media screen and (max-width: 1680px) {
   .navbar-menu {

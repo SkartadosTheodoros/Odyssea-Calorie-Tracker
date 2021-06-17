@@ -18,6 +18,6 @@
 .modal {
     position: fixed;
     overflow: hidden;
-    top: 30vh;
+    top: 20vh;
     z-index: 100;
 }

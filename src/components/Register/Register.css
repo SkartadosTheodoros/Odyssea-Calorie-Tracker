@@ -1,0 +1,36 @@
+.register {
+  background: var(--color);
+  height: 70vh;
+  width: 25vw;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1820px) {
+  .register {
+    width: 30vw;
+  }
+}
+
+@media screen and (max-width: 1680px) {
+  .register {
+    width: 35vw;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .register {
+    width: 40vw;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .register {
+    width: 50vw;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .register {
+    width: 60vw;
+  }
+}

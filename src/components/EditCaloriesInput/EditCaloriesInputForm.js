@@ -3,7 +3,6 @@ import { useState } from "react"
 import Input from "../UI/Input"
 
 const EditCaloriesInputForm = (props) => {
-    // States
     const [input, setInput] = useState()
     
     const inputChangeHandler = (event) => {
@@ -33,9 +32,8 @@ const EditCaloriesInputForm = (props) => {
         }
 
         const entry = {
-            date: new Date(),
+            id: props.editID,
             query: tempInput,
-            type: type
         }
 
         if (props.onEdit(entry)) {
@@ -55,7 +53,7 @@ const EditCaloriesInputForm = (props) => {
                         type: "text",
                         label: "input",
                         value: input,
-                        placeholder:"ex. 200g green salad for meal",
+                        placeholder:"ex. 150g bread",
                         onChange: inputChangeHandler
                     }} />
             </div>

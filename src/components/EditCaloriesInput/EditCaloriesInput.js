@@ -25,7 +25,10 @@ const EditCaloriesInput = (props) => {
             <div>
                 {error && <ErrorModal title="Error" message={error} onDismiss={onDismissHandler}></ErrorModal>}
                 {!error && <div className="edit">
-                    <EditCaloriesInputForm onEdit={onEditHandler} onCancel={onCancelHandler} />
+                    <EditCaloriesInputForm 
+                    editID={props.editID}
+                    onEdit={onEditHandler} 
+                    onCancel={onCancelHandler} />
                 </div>}
             </div>
         </Modal>

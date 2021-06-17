@@ -3,7 +3,7 @@
   grid-template-rows: 1fr 5fr 1fr;
   background: var(--color);
   height: 40vh;
-  width: 50vw;
+  width: 25vw;
   border-radius: 10px;
 }
 
@@ -62,4 +62,34 @@
   background-color: var(--color);
   font-weight: bold;
   opacity: 0.75;
+}
+
+@media screen and (max-width: 1820px) {
+  .error {
+    width: 30vw;
+  }
+}
+
+@media screen and (max-width: 1680px) {
+  .error {
+    width: 35vw;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .error {
+    width: 40vw;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .error {
+    width: 50vw;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .error {
+    width: 60vw;
+  }
 }

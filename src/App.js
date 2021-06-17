@@ -24,6 +24,7 @@ function App() {
   const [startDate, setStartDate] = useState(today())
   const [search, setSearch] = useState("")
   const [edit, setEdit] = useState(false);
+  const [editStatus, setEditStatus] = useState(false);
   const [type, setType] = useState("all")
   const [typeList, setTypesList] = useState([])
   const [error, setError] = useState();
@@ -57,7 +58,6 @@ function App() {
             quantity: String(item.serving_size_g) + "g",
             calories: item.calories
           }
-
           setData((data) => { return [...data, newEntry] })
         })
       })
@@ -68,49 +68,38 @@ function App() {
   // delete entry
   const deleteHandler = (id) => {
     const newData = data.filter((entry) => entry.id !== id);
-    setData(newData);;
+    setData(newData);
   };
 
   // edit entry
   const editHandler = (entry) => {
-    
-    console.log(edit);
-    console.log(entry);
+    setEdit(false)
 
-    
+    const newData = data
 
-    // fetch('https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
-    //   {
-    //     method: 'GET',
-    //     url: 'https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
-    //     headers: { 'X-Api-Key': 'EXZJmSfKrzCjfD5csKLGQQ==3snCEmEYJFlGVzjc' },
-    //     contentType: 'application/json',
-    //   })
-    //   .then(response => response.json())
-    //   .then(jsonData => {
-    //     jsonData.items.forEach(item => {
-    //       const newEntry = {
-    //         id: edit,
-    //         date: entry.date,
-    //         meal: item.name,
-    //         type: entry.type,
-    //         quantity: String(item.serving_size_g) + "g",
-    //         calories: item.calories
-    //       }
+    fetch('https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
+      {
+        method: 'GET',
+        url: 'https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
+        headers: { 'X-Api-Key': 'EXZJmSfKrzCjfD5csKLGQQ==3snCEmEYJFlGVzjc' },
+        contentType: 'application/json',
+      })
+      .then(response => response.json())
+      .then(jsonData => {
+        if (jsonData.items.length === 1) {
+          newData.map((item) => {
+            if (item.id === entry.id) {
+              item.meal = jsonData.items[0].name;
+              item.quantity = String(jsonData.items[0].serving_size_g) + "g";
+              item.calories = jsonData.items[0].calories;
+            }
+          })
+        }
+      })
 
-    //       setData((data) => { return [...data, newEntry] })
-    //     })
-    //   })
-
-
+    setData(newData);
+    setEditStatus("Congratulations old entry changed")
   }
-
-
-
-
-
-
-
 
   // -------------------------- Filter -----------------------------------
 
@@ -146,7 +135,6 @@ function App() {
       ? setSearch("")
       : setSearch(entry);
   }
-
 
   // ------------ Login - Register - Logout --------------------------------
 
@@ -196,16 +184,9 @@ function App() {
         message: "Account already Exist, try to Log in"
       }
     }
+
     setRegisterStatus(status)
   }
-
-
-
-
-
-
-
-
 
   // log in
   const onLoginHandler = (credentials) => {
@@ -218,17 +199,17 @@ function App() {
     else {
       users = JSON.parse(localStorage.getItem("users"))
     }
-  }
 
+
+
+
+
+  }
 
   // log out
   const onLogouHandler = () => {
 
   }
-
-
-
-
 
   // Modals
   const errorChangeHandler = () => setError(true)
@@ -240,6 +221,7 @@ function App() {
   const onRegisterStatusDismissHandler = () => setRegisterStatus(false)
   const onEditHandler = (id) => setEdit(id)
   const onEditDismissHandler = () => setEdit(false)
+  const onEditStatusDismissHandler = () => setEditStatus(false)
 
   return (
     <div className="App">
@@ -249,6 +231,7 @@ function App() {
         onDismiss={onDismissHandler} />}
 
       {edit && <EditCaloriesInput
+        editID={edit}
         onEdit={editHandler}
         onCancel={onEditDismissHandler} />}
 
@@ -264,6 +247,11 @@ function App() {
         title={registerStatus.status}
         message={registerStatus.message}
         onDismiss={onRegisterStatusDismissHandler} />}
+
+      {editStatus && <ErrorModal
+        title={""}
+        message={editStatus}
+        onDismiss={onEditStatusDismissHandler} />}
 
       <Navbar
         isLoggedIn={authUser}

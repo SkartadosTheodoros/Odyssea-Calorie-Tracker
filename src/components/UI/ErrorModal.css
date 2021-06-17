@@ -37,6 +37,10 @@
     font-size: 20px;
 }
 
+.error-content ul li b{
+color: #025e3c;
+}
+
 .error-button {
     display: flex;
     justify-content: flex-end;

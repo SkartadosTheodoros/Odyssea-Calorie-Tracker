@@ -32,12 +32,16 @@ const Calories = (props) => {
     })
 
 const onDeleteHandler = (id) => props.onDelete(id)
+const onEditHandler = (id) => props.onEdit(id)
 
 return (
     <div className="calories">
         {filteredItems.length !== 0 &&
             <div className="calories-list">
-                <CaloriesList data={filteredItems} onDelete={onDeleteHandler} />
+                <CaloriesList 
+                data={filteredItems} 
+                onEdit={onEditHandler} 
+                onDelete={onDeleteHandler} />
             </div>
         }
     </div>

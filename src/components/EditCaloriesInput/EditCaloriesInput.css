@@ -1,0 +1,36 @@
+.edit {
+  background: var(--color);
+  height: 25vh;
+  width: 20vw;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1820px) {
+  .edit {
+    width: 30vw;
+  }
+}
+
+@media screen and (max-width: 1680px) {
+  .edit {
+    width: 35vw;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .edit {
+    width: 40vw;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .edit {
+    width: 50vw;
+  }
+}
+
+@media screen and (max-width: 736px) {
+  .login {
+    width: 60vw;
+  }
+}

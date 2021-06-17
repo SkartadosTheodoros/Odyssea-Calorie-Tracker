@@ -5,6 +5,9 @@ import ErrorModal from './components/UI/ErrorModal';
 import CaloriesInput from './components/CaloriesInput/CaloriesInput';
 import CaloriesFilter from './components/CaloriesFilter/CaloriesFilter';
 import Calories from './components/CaloriesList/Calories';
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import EditCaloriesInput from "./components/EditCaloriesInput/EditCaloriesInput";
 
 function App() {
 
@@ -20,10 +23,14 @@ function App() {
   const [data, setData] = useState([])
   const [startDate, setStartDate] = useState(today())
   const [search, setSearch] = useState("")
+  const [edit, setEdit] = useState(false);
   const [type, setType] = useState("all")
   const [typeList, setTypesList] = useState([])
   const [error, setError] = useState();
-  const [authUser, setAuthUser] = useState();
+  const [login, setLogin] = useState(false);
+  const [register, setRegister] = useState(false);
+  const [registerStatus, setRegisterStatus] = useState(false);
+  const [authUser, setAuthUser] = useState(false);
 
   //Add new entry
   const addEntryHandler = (entry) => {
@@ -41,7 +48,7 @@ function App() {
       })
       .then(response => response.json())
       .then(jsonData => {
-        jsonData.items.map(item => {
+        jsonData.items.forEach(item => {
           const newEntry = {
             id: uuidv4(),
             date: entry.date,
@@ -50,32 +57,13 @@ function App() {
             quantity: String(item.serving_size_g) + "g",
             calories: item.calories
           }
+
           setData((data) => { return [...data, newEntry] })
         })
       })
 
-    console.log(data)
     return true;
   }
-
-  //Error Modal
-  const errorChangeHandler = () => {
-    setError(true)
-  }
-
-  //Close Error Modal
-  const onDismissHandler = () => {
-    setError(false)
-  }
-
-  //edit entry
-
-
-
-
-
-
-
 
   // delete entry
   const deleteHandler = (id) => {
@@ -83,15 +71,55 @@ function App() {
     setData(newData);;
   };
 
-  // set date for filterimg 
-  const newStartDateSetHandler = (startDate) => {
-    setStartDate(startDate);
+  // edit entry
+  const editHandler = (entry) => {
+    
+    console.log(edit);
+    console.log(entry);
+
+    
+
+    // fetch('https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
+    //   {
+    //     method: 'GET',
+    //     url: 'https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
+    //     headers: { 'X-Api-Key': 'EXZJmSfKrzCjfD5csKLGQQ==3snCEmEYJFlGVzjc' },
+    //     contentType: 'application/json',
+    //   })
+    //   .then(response => response.json())
+    //   .then(jsonData => {
+    //     jsonData.items.forEach(item => {
+    //       const newEntry = {
+    //         id: edit,
+    //         date: entry.date,
+    //         meal: item.name,
+    //         type: entry.type,
+    //         quantity: String(item.serving_size_g) + "g",
+    //         calories: item.calories
+    //       }
+
+    //       setData((data) => { return [...data, newEntry] })
+    //     })
+    //   })
+
+
   }
 
+
+
+
+
+
+
+
+  // -------------------------- Filter -----------------------------------
+
+  // set filter Date
+  const newStartDateSetHandler = (startDate) => setStartDate(startDate);
+
   // set filter type
-  const newSetTypeSetHandler = (type) => {
-    setType(type);
-  }
+  const newSetTypeSetHandler = (type) => setType(type);
+
 
   // filter type list
   const newSetTypeListSetHandler = (date) => {
@@ -114,8 +142,64 @@ function App() {
   }, [data])
 
   const searchChangeHandler = (entry) => {
-    entry === undefined ? setSearch("") : setSearch(entry);
+    (entry === undefined)
+      ? setSearch("")
+      : setSearch(entry);
   }
+
+
+  // ------------ Login - Register - Logout --------------------------------
+
+  // Register
+  const onRegisterHandler = (newUser) => {
+    setRegister(false)
+
+    //fetch users from local storage
+    let users;
+    if (localStorage.getItem("users") === null) {
+      users = [];
+    }
+    else {
+      users = JSON.parse(localStorage.getItem("users"))
+    }
+
+    // Check if the newUser already exist
+    let error = "none"
+    users.forEach(item => {
+      if (item.name === newUser.name && item.surname === newUser.surname && item.birthday === newUser.birthday) {
+        error = "User already Exist"
+      }
+      else if (item.username === newUser.username) {
+        error = "Account already Exist"
+      }
+    })
+
+    let status
+    if (error === "none") {
+      users.push(newUser)
+      localStorage.setItem("users", JSON.stringify(users));
+
+      status = {
+        status: "Congratulations",
+        message: "Registretions Completed Successfuly"
+      }
+    }
+    else if (error === "User already Exist") {
+      status = {
+        status: "I am sorry ",
+        message: "User already Exist so try to Log in "
+      }
+    }
+    else if (error === "Account already Exist") {
+      status = {
+        status: "I am sorry ",
+        message: "Account already Exist, try to Log in"
+      }
+    }
+    setRegisterStatus(status)
+  }
+
+
 
 
 
@@ -124,47 +208,21 @@ function App() {
 
 
   // log in
-  const anthedicate = (credentials) => {
-
-    // user data
-    const users = [{
-      id: uuidv4(),
-      name: "Thodoris",
-      surname: "Skartados",
-      username: "Str125",
-      password: "123456789",
-      birthday: new Date("1991-5-14"),
-      role: "user"
-    },
-    {
-      id: uuidv4(),
-      name: "Nikolas",
-      surname: "Kouroumpetsis",
-      username: "oTheosKoimithike",
-      password: "hbvusvhsuidvjuv",
-      birthday: new Date("1990-3-10"),
-      role: "user"
-    }]
-
-
-  }
-
   const onLoginHandler = (credentials) => {
 
-
-  }
-
-
-  // register
-
-  const onRegisterHandler = (user) => {
-
-  
+    //fetch users from local storage
+    let users;
+    if (localStorage.getItem("users") === null) {
+      users = [];
+    }
+    else {
+      users = JSON.parse(localStorage.getItem("users"))
+    }
   }
 
 
   // log out
-  const onLogouHandler = (credentials) => {
+  const onLogouHandler = () => {
 
   }
 
@@ -172,14 +230,45 @@ function App() {
 
 
 
+  // Modals
+  const errorChangeHandler = () => setError(true)
+  const onDismissHandler = () => setError(false)
+  const onLoginChangeHandler = () => setLogin(true)
+  const onLoginDismissHandler = () => setLogin(false)
+  const onRegisterChangeHandler = () => setRegister(true)
+  const onRegisterDismissHandler = () => setRegister(false)
+  const onRegisterStatusDismissHandler = () => setRegisterStatus(false)
+  const onEditHandler = (id) => setEdit(id)
+  const onEditDismissHandler = () => setEdit(false)
+
   return (
     <div className="App">
-      {error && <ErrorModal title={error} onDismiss={onDismissHandler}></ErrorModal>}
+      {error && <ErrorModal
+        title={error}
+        message={"Meal Wrong Input Format"}
+        onDismiss={onDismissHandler} />}
+
+      {edit && <EditCaloriesInput
+        onEdit={editHandler}
+        onCancel={onEditDismissHandler} />}
+
+      {login && <Login
+        onLogin={onLoginHandler}
+        onCancel={onLoginDismissHandler} />}
+
+      {register && <Register
+        onRegister={onRegisterHandler}
+        onCancel={onRegisterDismissHandler} />}
+
+      {registerStatus && <ErrorModal
+        title={registerStatus.status}
+        message={registerStatus.message}
+        onDismiss={onRegisterStatusDismissHandler} />}
 
       <Navbar
         isLoggedIn={authUser}
-        login={onLoginHandler}
-        register={onRegisterHandler}
+        login={onLoginChangeHandler}
+        register={onRegisterChangeHandler}
         logout={onLogouHandler} />
 
       <CaloriesInput
@@ -200,9 +289,10 @@ function App() {
         filterSearch={search}
         filterDate={startDate}
         filterType={type}
+        onEdit={onEditHandler}
         onDelete={deleteHandler} />
     </div >
-  );
+  )
 }
 
 export default App;

@@ -1,6 +1,7 @@
 import "./Login.css"
 import { useState } from 'react';
 import LoginForm from "./LoginForm"
+import Modal from "../UI/Modal";
 import ErrorModal from "../UI/ErrorModal";
 
 const Login = (props) => {
@@ -20,20 +21,19 @@ const Login = (props) => {
         return true;
     }
 
-    const onDismissHandler = () => {
-        setError(null)
-    }
+    const onDismissHandler = () => setError(null)
+    const onCancelHandler = () => props.onCancel()
 
     return (
-        <div>
-            {error && <ErrorModal title="Error" message={error} onDismiss={onDismissHandler}></ErrorModal>}
-            <div className="login">
-                <LoginForm onLogin={onLoginHandler} />
+        <Modal>
+            <div>
+                {error && <ErrorModal title="Error" message={error} onDismiss={onDismissHandler}></ErrorModal>}
+                {!error && <div className="login">
+                    <LoginForm onLogin={onLoginHandler} onCancel={onCancelHandler} />
+                </div>}
             </div>
-        </div>
-
+        </Modal>
     )
-
 }
 
 export default Login

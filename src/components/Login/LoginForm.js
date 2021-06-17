@@ -3,65 +3,60 @@ import { useState } from "react"
 import Input from "../UI/Input"
 
 const LoginForm = (props) => {
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
-    const [userUsername, setUserUsername] = useState("")
     const usernameChangedHandler = (event) => {
         let newValue = event.target.value
-        setUserUsername(newValue)
-        console.log(`Someone typed ${userUsername}`)
+        setUsername(newValue)
     }
 
-    const [userPassword, setUserPassword] = useState("")
     const passwordChangedHandler = (event) => {
         let newValue = event.target.value
-        setUserPassword(newValue)
-        console.log(`Someone typed ${userPassword}`)
+        setPassword(newValue)
     }
 
     const onSubmitHandler = event => {
-        event.preventDefault();
-
         const credentials = {
-            username: userUsername,
-            password: userPassword
+            username: username,
+            password: password
         }
 
         if (props.onLogin(credentials)) {
-            console.log("Reseting form data")
-            setUserUsername("")
-            setUserPassword("")
-        }
-        else {
-            console.log("Error credentials");
+            setUsername("")
+            setPassword("")
         }
     }
 
+    const onCancelHandler = () => props.onCancel()
+
     return (
-        <form onSubmit={onSubmitHandler}>
-            <div className="login__elements">
-                <Input className="login__element"
+        <form className="login-form" onSubmit={onSubmitHandler}>
+            <div className="login-input">
+                <Input className="login-element"
                     labelText="Username"
                     input={{
                         id: "username",
                         type: "text",
                         label: "username",
-                        value: userUsername,
+                        value: username,
                         onChange: usernameChangedHandler
                     }} />
 
-                <Input className="login__element"
+                <Input className="login-element"
                     labelText="Password"
                     input={{
                         id: "password",
                         type: "password",
                         label: "password",
-                        value: userPassword,
+                        value: password,
                         onChange: passwordChangedHandler
                     }} />
 
             </div>
-            <div className="login__actions">
+            <div className="login-buttons">
                 <button type="submit">Login</button>
+                <button type="button" onClick={onCancelHandler}>Cancel</button>
             </div>
         </form>
     )

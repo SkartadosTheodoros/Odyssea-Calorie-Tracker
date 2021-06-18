@@ -16,7 +16,9 @@ const LoginForm = (props) => {
         setPassword(newValue)
     }
 
-    const onSubmitHandler = event => {
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+
         const credentials = {
             username: username,
             password: password

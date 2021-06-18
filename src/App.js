@@ -5,12 +5,16 @@ import ErrorModal from './components/UI/ErrorModal';
 import CaloriesInput from './components/CaloriesInput/CaloriesInput';
 import CaloriesFilter from './components/CaloriesFilter/CaloriesFilter';
 import Calories from './components/CaloriesList/Calories';
+import DailyCalories from "./components/DailyCalories/DailyCalories";
+import EditCaloriesInput from "./components/EditCaloriesInput/EditCaloriesInput";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
-import EditCaloriesInput from "./components/EditCaloriesInput/EditCaloriesInput";
 
 function App() {
 
+  const globalCaloriesLimit = 1500
+
+  // This function returns current date in string format
   const today = () => {
     let today = new Date()
     let day = String(today.getDate()).padStart(2, '0');
@@ -24,14 +28,16 @@ function App() {
   const [startDate, setStartDate] = useState(today())
   const [search, setSearch] = useState("")
   const [edit, setEdit] = useState(false);
-  const [editStatus, setEditStatus] = useState(false);
+  const [editMessage, setEditMessage] = useState(false);
   const [type, setType] = useState("all")
   const [typeList, setTypesList] = useState([])
   const [error, setError] = useState();
   const [login, setLogin] = useState(false);
+  const [dailyCalories, setDailyCalories] = useState(false);
   const [register, setRegister] = useState(false);
-  const [registerStatus, setRegisterStatus] = useState(false);
+  const [registerMessage, setRegisterMessage] = useState(false);
   const [authUser, setAuthUser] = useState(false);
+  const [caloriesLimit, setCaloriesLimit] = useState()
 
   //Add new entry
   const addEntryHandler = (entry) => {
@@ -61,7 +67,6 @@ function App() {
           setData((data) => { return [...data, newEntry] })
         })
       })
-
     return true;
   }
 
@@ -98,8 +103,15 @@ function App() {
       })
 
     setData(newData);
-    setEditStatus("Congratulations old entry changed")
+    setEditMessage("Congratulations old entry changed")
   }
+
+  // Data store if the user is autheticated
+  useEffect(() => {
+    if (authUser !== false) {
+      localStorage.setItem(authUser.id, JSON.stringify(data));
+    }
+  }, [data])
 
   // -------------------------- Filter -----------------------------------
 
@@ -185,14 +197,14 @@ function App() {
       }
     }
 
-    setRegisterStatus(status)
+    setRegisterMessage(status)
   }
 
   // log in
   const onLoginHandler = (credentials) => {
 
     //fetch users from local storage
-    let users;
+    let user, users, tempData;
     if (localStorage.getItem("users") === null) {
       users = [];
     }
@@ -200,15 +212,45 @@ function App() {
       users = JSON.parse(localStorage.getItem("users"))
     }
 
+    users.map((item) => {
+      if (item.username === credentials.username && item.password === credentials.password) {
+        user = item
+        setAuthUser(item)
+      }
+    })
 
+    if (user === undefined) {
+      tempData = [];
+    } else {
+      if (localStorage.getItem(user.id) === null) {
+        tempData = [];
+      }
+      else {
+        tempData = JSON.parse(localStorage.getItem(user.id))
+      }
+    }
 
+    tempData.map((item) => {
+      item.date = new Date(item.date)
+    })
 
+    setData(tempData)
+    setDailyCalories(true)
+    setLogin(false)
+  }
 
+  const onSetCaloriesHandler = (calories) => {
+    setDailyCalories(false)
+    setCaloriesLimit(calories)
   }
 
   // log out
   const onLogouHandler = () => {
+    localStorage.setItem(authUser.id, JSON.stringify(data));
 
+    setAuthUser(false)
+    setCaloriesLimit()
+    setData([])
   }
 
   // Modals
@@ -218,10 +260,10 @@ function App() {
   const onLoginDismissHandler = () => setLogin(false)
   const onRegisterChangeHandler = () => setRegister(true)
   const onRegisterDismissHandler = () => setRegister(false)
-  const onRegisterStatusDismissHandler = () => setRegisterStatus(false)
+  const onRegisterMessageDismissHandler = () => setRegisterMessage(false)
   const onEditHandler = (id) => setEdit(id)
   const onEditDismissHandler = () => setEdit(false)
-  const onEditStatusDismissHandler = () => setEditStatus(false)
+  const onEditMessageDismissHandler = () => setEditMessage(false)
 
   return (
     <div className="App">
@@ -235,23 +277,28 @@ function App() {
         onEdit={editHandler}
         onCancel={onEditDismissHandler} />}
 
+      {editMessage && <ErrorModal
+        title={""}
+        message={editMessage}
+        onDismiss={onEditMessageDismissHandler} />}
+
       {login && <Login
         onLogin={onLoginHandler}
         onCancel={onLoginDismissHandler} />}
+
+      {dailyCalories && <DailyCalories
+        user={authUser}
+        caloriesLimit={globalCaloriesLimit}
+        onSetCalories={onSetCaloriesHandler} />}
 
       {register && <Register
         onRegister={onRegisterHandler}
         onCancel={onRegisterDismissHandler} />}
 
-      {registerStatus && <ErrorModal
-        title={registerStatus.status}
-        message={registerStatus.message}
-        onDismiss={onRegisterStatusDismissHandler} />}
-
-      {editStatus && <ErrorModal
-        title={""}
-        message={editStatus}
-        onDismiss={onEditStatusDismissHandler} />}
+      {registerMessage && <ErrorModal
+        title={registerMessage.status}
+        message={registerMessage.message}
+        onDismiss={onRegisterMessageDismissHandler} />}
 
       <Navbar
         isLoggedIn={authUser}
@@ -277,6 +324,7 @@ function App() {
         filterSearch={search}
         filterDate={startDate}
         filterType={type}
+        caloriesLimit={caloriesLimit}
         onEdit={onEditHandler}
         onDelete={deleteHandler} />
     </div >

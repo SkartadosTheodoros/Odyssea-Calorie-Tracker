@@ -13,22 +13,12 @@ const EditCaloriesInputForm = (props) => {
     const onSubmitHandler = (event) => {
         event.preventDefault()
 
-        let tempInput, tempData, type
-
+        let tempInput
         if (input === undefined) {
             tempInput = ""
         }
         else {
             tempInput = input.trim()
-        }
-
-        if (tempInput.includes("for")) {
-            tempData = tempInput.split("for")
-            tempInput = tempData[0].trim()
-            type = tempData[1].toLowerCase().trim()
-        }
-        else {
-            type = "-"
         }
 
         const entry = {

@@ -1,36 +1,36 @@
-.edit {
+.daily-calories {
   background: var(--color);
-  height: 25vh;
+  height: 40vh;
   width: 20vw;
   border-radius: 10px;
 }
 
 @media screen and (max-width: 1820px) {
-  .edit {
+  .daily-calories {
     width: 30vw;
   }
 }
 
 @media screen and (max-width: 1680px) {
-  .edit {
+  .daily-calories {
     width: 35vw;
   }
 }
 
 @media screen and (max-width: 1280px) {
-  .edit {
+  .daily-calories {
     width: 40vw;
   }
 }
 
 @media screen and (max-width: 980px) {
-  .edit {
+  .daily-calories {
     width: 50vw;
   }
 }
 
 @media screen and (max-width: 736px) {
-  .edit {
+  .daily-calories {
     width: 60vw;
   }
 }

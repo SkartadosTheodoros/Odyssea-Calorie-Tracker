@@ -1,0 +1,55 @@
+.daily-calories-form {
+  display: grid;
+  grid-template-rows: 2fr 4fr 2fr;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
+}
+
+.daily-calories-greeting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.daily-calories-greeting p{
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.daily-calories-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--colorlight);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0 10px 0;
+}
+
+.daily-calories-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.daily-calories-buttons button {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.7rem 1.5rem;
+  border: 1px solid green;
+  background-color: var(--colorlight);
+  border-radius: 10px;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+.daily-calories-buttons button:hover {
+  color: white;
+  background-color: var(--color);
+  font-weight: bold;
+  opacity: 0.75;
+}

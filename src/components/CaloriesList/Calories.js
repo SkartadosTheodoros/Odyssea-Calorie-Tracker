@@ -40,6 +40,7 @@ return (
             <div className="calories-list">
                 <CaloriesList 
                 data={filteredItems} 
+                caloriesLimit={props.caloriesLimit}
                 onEdit={onEditHandler} 
                 onDelete={onDeleteHandler} />
             </div>

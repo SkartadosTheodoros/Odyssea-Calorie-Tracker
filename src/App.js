@@ -42,7 +42,11 @@ function App() {
   //Add new entry
   const addEntryHandler = (entry) => {
     if (entry.query.trim().length === 0) {
-      setError("Meal is mandatory")
+      const status = {
+        status: "Meal is mandatory",
+        message: "Meal Wrong Input Format"
+      }
+      setError(status)
       return false;
     }
 
@@ -204,7 +208,7 @@ function App() {
   const onLoginHandler = (credentials) => {
 
     //fetch users from local storage
-    let user, users, tempData;
+    let user, users, tempData, loginSuccess = false;
     if (localStorage.getItem("users") === null) {
       users = [];
     }
@@ -216,27 +220,37 @@ function App() {
       if (item.username === credentials.username && item.password === credentials.password) {
         user = item
         setAuthUser(item)
+        loginSuccess = true
       }
     })
 
-    if (user === undefined) {
-      tempData = [];
-    } else {
-      if (localStorage.getItem(user.id) === null) {
+    if (loginSuccess) {
+      if (user === undefined) {
         tempData = [];
+      } else {
+        if (localStorage.getItem(user.id) === null) {
+          tempData = [];
+        }
+        else {
+          tempData = JSON.parse(localStorage.getItem(user.id))
+        }
       }
-      else {
-        tempData = JSON.parse(localStorage.getItem(user.id))
-      }
+
+      tempData.map((item) => {
+        item.date = new Date(item.date)
+      })
+
+      setData(tempData)
+      setDailyCalories(true)
+      setLogin(false)
     }
-
-    tempData.map((item) => {
-      item.date = new Date(item.date)
-    })
-
-    setData(tempData)
-    setDailyCalories(true)
-    setLogin(false)
+    else {
+      const status = {
+        status: "Login Error",
+        message: "Unsuccessful logins, try again"
+      }
+      setError(status)
+    }
   }
 
   const onSetCaloriesHandler = (calories) => {
@@ -267,20 +281,6 @@ function App() {
 
   return (
     <div className="App">
-      {error && <ErrorModal
-        title={error}
-        message={"Meal Wrong Input Format"}
-        onDismiss={onDismissHandler} />}
-
-      {edit && <EditCaloriesInput
-        editID={edit}
-        onEdit={editHandler}
-        onCancel={onEditDismissHandler} />}
-
-      {editMessage && <ErrorModal
-        title={""}
-        message={editMessage}
-        onDismiss={onEditMessageDismissHandler} />}
 
       {login && <Login
         onLogin={onLoginHandler}
@@ -299,6 +299,21 @@ function App() {
         title={registerMessage.status}
         message={registerMessage.message}
         onDismiss={onRegisterMessageDismissHandler} />}
+
+      {edit && <EditCaloriesInput
+        editID={edit}
+        onEdit={editHandler}
+        onCancel={onEditDismissHandler} />}
+
+      {editMessage && <ErrorModal
+        title={""}
+        message={editMessage}
+        onDismiss={onEditMessageDismissHandler} />}
+
+      {error && <ErrorModal
+        title={error.status}
+        message={error.message}
+        onDismiss={onDismissHandler} />}
 
       <Navbar
         isLoggedIn={authUser}

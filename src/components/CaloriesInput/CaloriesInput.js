@@ -46,7 +46,7 @@ const CaloriesInput = (props) => {
     return (
         <div className="add-entry">
             <div className="add-entry-title">
-                <h2>Welcome to Odyssea Callories Tracker </h2>
+                <h2>Welcome to Odyssea Calorie Tracker </h2>
             </div>
 
             <div className="add-entry-input">

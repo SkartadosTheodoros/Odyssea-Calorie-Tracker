@@ -9,7 +9,7 @@ import DailyCalories from "./components/DailyCalories/DailyCalories";
 import EditCaloriesInput from "./components/EditCaloriesInput/EditCaloriesInput";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
-import Loading from "./components/UI/Loading"
+import Loading from "./components/UI/Loading";
 
 function App() {
 
@@ -74,9 +74,10 @@ function App() {
           }
           setData((data) => { return [...data, newEntry] })
         })
+
+        setIsLoading(false)
       })
 
-    setIsLoading(false)
     return true;
   }
 
@@ -110,10 +111,11 @@ function App() {
             }
           })
         }
+
+        setIsLoading(false)
       })
 
     setData(newData);
-    setIsLoading(false)
     setEditMessage("Congratulations old entry changed")
   }
 
@@ -256,6 +258,7 @@ function App() {
         status: "Login Error",
         message: "Unsuccessful logins, try again"
       }
+      
       setError(status)
     }
   }

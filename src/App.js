@@ -9,6 +9,7 @@ import DailyCalories from "./components/DailyCalories/DailyCalories";
 import EditCaloriesInput from "./components/EditCaloriesInput/EditCaloriesInput";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
+import Loading from "./components/UI/Loading"
 
 function App() {
 
@@ -38,6 +39,8 @@ function App() {
   const [registerMessage, setRegisterMessage] = useState(false);
   const [authUser, setAuthUser] = useState(false);
   const [caloriesLimit, setCaloriesLimit] = useState()
+  const [isLoading, setIsLoading] = useState(false)
+
 
   //Add new entry
   const addEntryHandler = (entry) => {
@@ -50,6 +53,7 @@ function App() {
       return false;
     }
 
+    setIsLoading(true)
     fetch('https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
       {
         method: 'GET',
@@ -71,6 +75,8 @@ function App() {
           setData((data) => { return [...data, newEntry] })
         })
       })
+
+    setIsLoading(false)
     return true;
   }
 
@@ -82,10 +88,10 @@ function App() {
 
   // edit entry
   const editHandler = (entry) => {
-    setEdit(false)
-
     const newData = data
 
+    setEdit(false)
+    setIsLoading(true)
     fetch('https://api.calorieninjas.com/v1/nutrition?query=' + entry.query,
       {
         method: 'GET',
@@ -107,6 +113,7 @@ function App() {
       })
 
     setData(newData);
+    setIsLoading(false)
     setEditMessage("Congratulations old entry changed")
   }
 
@@ -334,14 +341,15 @@ function App() {
         onSetStartDate={newStartDateSetHandler}
         onSetTypeList={newSetTypeListSetHandler} />
 
-      <Calories
+      {isLoading && <Loading/>}
+      {!isLoading && <Calories
         data={data}
         filterSearch={search}
         filterDate={startDate}
         filterType={type}
         caloriesLimit={caloriesLimit}
         onEdit={onEditHandler}
-        onDelete={deleteHandler} />
+        onDelete={deleteHandler} />}
     </div >
   )
 }

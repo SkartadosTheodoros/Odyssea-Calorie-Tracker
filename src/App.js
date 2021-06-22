@@ -103,7 +103,7 @@ function App() {
       .then(response => response.json())
       .then(jsonData => {
         if (jsonData.items.length === 1) {
-          newData.map((item) => {
+          newData.forEach((item) => {
             if (item.id === entry.id) {
               item.meal = jsonData.items[0].name;
               item.quantity = String(jsonData.items[0].serving_size_g) + "g";
@@ -124,7 +124,7 @@ function App() {
     if (authUser !== false) {
       localStorage.setItem(authUser.id, JSON.stringify(data));
     }
-  }, [data])
+  }, [authUser, data])
 
   // -------------------------- Filter -----------------------------------
 
@@ -153,7 +153,7 @@ function App() {
   // filter type list on load
   useEffect(() => {
     newSetTypeListSetHandler(new Date(startDate))
-  }, [data])
+  }, [startDate, data])
 
   const searchChangeHandler = (entry) => {
     (entry === undefined)
@@ -225,7 +225,7 @@ function App() {
       users = JSON.parse(localStorage.getItem("users"))
     }
 
-    users.map((item) => {
+    users.forEach((item) => {
       if (item.username === credentials.username && item.password === credentials.password) {
         user = item
         setAuthUser(item)
@@ -245,8 +245,8 @@ function App() {
         }
       }
 
-      tempData.map((item) => {
-        item.date = new Date(item.date)
+      tempData.forEach((item) => { 
+        item.date = new Date(item.date) 
       })
 
       setData(tempData)
@@ -258,7 +258,7 @@ function App() {
         status: "Login Error",
         message: "Unsuccessful logins, try again"
       }
-      
+
       setError(status)
     }
   }
@@ -344,7 +344,7 @@ function App() {
         onSetStartDate={newStartDateSetHandler}
         onSetTypeList={newSetTypeListSetHandler} />
 
-      {isLoading && <Loading/>}
+      {isLoading && <Loading />}
       {!isLoading && <Calories
         data={data}
         filterSearch={search}
